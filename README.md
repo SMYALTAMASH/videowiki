@@ -26,3 +26,12 @@ that you have working accounts for these.
 7. Go to the parent directory `videowiki`
 8. Start the application with `docker-compose up`
 9. Navigate to `tvw.localhost` to access the application
+
+## Current Architecture
+![Current Architecture](Current_Architecture.jpg)
+
+## Current Workflow
+![Workflow](Workflow.png)
+
+## Upcoming Architecture
+![Upcoming Architecture](Upcoming_Architecture.jpg)
