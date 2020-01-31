@@ -25,4 +25,4 @@ that you have working accounts for these.
 6. Copy gsc_creds.json in both `translator` and `transcriber` directories
 7. Go to the parent directory `videowiki`
 8. Start the application with `docker-compose up`
-9. Navigate to `tvw.wideokwi` to access the application
+9. Navigate to `tvw.localhost` to access the application
