@@ -37,8 +37,8 @@ that you have working accounts for these.
 ![Upcoming Architecture](Upcoming_Architecture.jpg)
 
 ## Code of Conduct
-![Code of Conduct](Code_of_Conduct.docx)
+[Code of Conduct](Code_of_Conduct.docx)
 
 ## Harassment Complaint Form
-![Harassment Complaint Form](https://docs.google.com/forms/d/e/1FAIpQLScMR9EqywvmTrxBiDc3QQG0E50XsnCU8LO7olFQ_7yFgy2Okg/viewform)
+[Harassment Complaint Form](https://docs.google.com/forms/d/e/1FAIpQLScMR9EqywvmTrxBiDc3QQG0E50XsnCU8LO7olFQ_7yFgy2Okg/viewform)
 
