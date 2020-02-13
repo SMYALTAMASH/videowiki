@@ -1,0 +1,10 @@
+audio_processor
+backend
+data
+exporter
+frontend
+spleeter
+translator
+transcriber
+
+docker-compose.env
