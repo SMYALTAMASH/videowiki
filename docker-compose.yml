@@ -29,10 +29,10 @@ services:
 ########################################################################################
   tvw_frontend:
     build:
-      context: ./tvw_frontend
+      context: ./frontend
       dockerfile: Dockerfile.dev
     volumes:
-      - ./tvw_frontend:/tvw_frontend
+      - ./frontend:/tvw_frontend
       - /tvw_frontend/node_modules
     ports:
       - 3000:3000
@@ -40,7 +40,7 @@ services:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_backend
+      context: ./backend
       dockerfile: Dockerfile.dev
 
     restart: always
@@ -49,7 +49,7 @@ services:
       - mongo_server
       - rabbitmq_server
     volumes:
-      - ./tvw_backend:/tvw_backend
+      - ./backend:/tvw_backend
     ports:
       - 4000:4000
     command: ['./wait-for-it.sh', 'rabbitmq_server:5672', '-s', '-t', '20', '--', 'npm', 'run', 'dev']
@@ -58,10 +58,10 @@ services:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_audio_processor
+      context: ./audio_processor
       dockerfile: Dockerfile.dev
     volumes:
-    - ./tvw_audio_processor:/tvw_audio_processor
+    - ./audio_processor:/tvw_audio_processor
     # ports:
     #   - 4001:4001
     # command: ['npm', 'run', 'dev']
@@ -73,38 +73,36 @@ services:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_exporter
+      context: ./exporter
       dockerfile: Dockerfile.dev
     volumes:
-    - ./tvw_exporter:/tvw_exporter
+    - ./exporter:/tvw_exporter
     # command: ['npm', 'run', 'dev']
     depends_on:
       - tvw_backend
     command: ['./wait-for-it.sh', 'tvw_backend:4000', '-s', '-t', '15', '--', 'npm', 'run', 'dev']
 ########################################################################################
-    
   tvw_transcriber:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_transcriber
+      context: ./transcriber
       dockerfile: Dockerfile.dev
     volumes:
-    - ./tvw_transcriber:/tvw_transcriber
+    - ./transcriber:/tvw_transcriber
     # command: ['npm', 'run', 'dev']
     depends_on:
       - tvw_backend
     command: ['./wait-for-it.sh', 'tvw_backend:4000', '-s', '-t', '15', '--', 'npm', 'run', 'dev']
 ########################################################################################
-    
   tvw_translator:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_translator
+      context: ./translator
       dockerfile: Dockerfile.dev
     volumes:
-    - ./tvw_translator:/tvw_translator
+    - ./translator:/tvw_translator
     # command: ['npm', 'run', 'dev']
     depends_on:
       - tvw_backend
@@ -115,10 +113,10 @@ services:
     env_file:
       - docker-compose.env
     build:
-      context: ./tvw_spleeter
+      context: ./spleeter
       dockerfile: Dockerfile.dev
     volumes:
-    - ./tvw_spleeter:/tvw_spleeter
+    - ./spleeter:/tvw_spleeter
     # command: ['npm', 'run', 'dev']
     depends_on:
       - tvw_backend
