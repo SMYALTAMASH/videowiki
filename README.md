@@ -11,7 +11,7 @@ that you have working accounts for these.
 ## Steps
 1. Clone this repository
 2. `cd videowiki`
-2. Edit the `docker-compose.env` file to provide your credentials for services used
+2. Rename `docker-compose.env.example` to `docker-compose.env` Edit this to provide your credentials for services used.
 3. Add your Google credentials JSON as `gsc_creds.json` here
 4. Clone the individual repositories needed from the gitlab project `https://gitlab.com/videowiki`
 - backend
