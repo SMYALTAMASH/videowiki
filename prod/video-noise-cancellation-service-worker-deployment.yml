@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: video-noise-cancellation-service-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: video-noise-cancellation-service
+    template:
+        metadata:
+            labels:
+                component: video-noise-cancellation-service
+                stage: prod
+        spec:
+            containers:
+            - name: video-noise-cancellation-service
+              imagePullPolicy: Always
+              image: example.dkr.ecr.eu-west-1.amazonaws.com/videowiki/video-noise-cancellation-service:master
+              envFrom:
+               - secretRef:
+                    name: videowikisecretkeys
+
+

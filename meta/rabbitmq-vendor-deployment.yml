@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: rabbitmq-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: rabbitmq
+    template:
+        metadata:
+            labels:
+                component: rabbitmq
+                stage: undefined
+        spec:
+            containers:
+            - name: rabbitmq
+              imagePullPolicy: Always
+              image: rabbitmq:3.8.3
+              ports:
+                - containerPort: 5672
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: rabbitmq-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: rabbitmq
+    ports:
+    - port: 5672
+      targetPort: 5672    
+
+

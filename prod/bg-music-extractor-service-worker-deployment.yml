@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: bg-music-extractor-service-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: bg-music-extractor-service
+    template:
+        metadata:
+            labels:
+                component: bg-music-extractor-service
+                stage: prod
+        spec:
+            containers:
+            - name: bg-music-extractor-service
+              imagePullPolicy: Always
+              image: example.dkr.ecr.eu-west-1.amazonaws.com/videowiki/bg-music-extractor-service:master
+              envFrom:
+               - secretRef:
+                    name: videowikisecretkeys
+
+

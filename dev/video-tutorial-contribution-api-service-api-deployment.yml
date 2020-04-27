@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: video-tutorial-contribution-api-service-deployment
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: video-tutorial-contribution-api-service
+    template:
+        metadata:
+            labels:
+                component: video-tutorial-contribution-api-service
+                stage: dev
+        spec:
+            containers:
+            - name: video-tutorial-contribution-api-service
+              imagePullPolicy: Always
+              image: video-tutorial-contribution-api-service
+              ports:
+                - containerPort: 4000
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: video-tutorial-contribution-api-service-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: video-tutorial-contribution-api-service
+    ports:
+    - port: 4000
+      targetPort: 4000    
+
+

@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: transcriber-service-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: transcriber-service
+    template:
+        metadata:
+            labels:
+                component: transcriber-service
+                stage: dev
+        spec:
+            containers:
+            - name: transcriber-service
+              imagePullPolicy: Always
+              image: transcriber-service
+              envFrom:
+               - secretRef:
+                    name: videowikisecretkeys
+
+

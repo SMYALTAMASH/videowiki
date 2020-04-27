@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: notification-api-service-deployment
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: notification-api-service
+    template:
+        metadata:
+            labels:
+                component: notification-api-service
+                stage: dev
+        spec:
+            containers:
+            - name: notification-api-service
+              imagePullPolicy: Always
+              image: notification-api-service
+              ports:
+                - containerPort: 4000
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: notification-api-service-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: notification-api-service
+    ports:
+    - port: 4000
+      targetPort: 4000    
+
+

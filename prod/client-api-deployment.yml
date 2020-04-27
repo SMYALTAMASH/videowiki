@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: client-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: client
+    template:
+        metadata:
+            labels:
+                component: client
+                stage: prod
+        spec:
+            containers:
+            - name: client
+              imagePullPolicy: Always
+              image: example.dkr.ecr.eu-west-1.amazonaws.com/videowiki/client:master
+              ports:
+                - containerPort: 3000
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: client-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: client
+    ports:
+    - port: 3000
+      targetPort: 3000    
+
+

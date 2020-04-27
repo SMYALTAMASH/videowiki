@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mongo-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: mongo
+    template:
+        metadata:
+            labels:
+                component: mongo
+                stage: undefined
+        spec:
+            containers:
+            - name: mongo
+              imagePullPolicy: Always
+              image: mongo:4.0.10
+              ports:
+                - containerPort: 27017
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: mongo-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: mongo
+    ports:
+    - port: 27017
+      targetPort: 27017    
+
+

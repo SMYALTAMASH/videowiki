@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: translation-export-api-service-deployment
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: translation-export-api-service
+    template:
+        metadata:
+            labels:
+                component: translation-export-api-service
+                stage: dev
+        spec:
+            containers:
+            - name: translation-export-api-service
+              imagePullPolicy: Always
+              image: translation-export-api-service
+              ports:
+                - containerPort: 4000
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: translation-export-api-service-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: translation-export-api-service
+    ports:
+    - port: 4000
+      targetPort: 4000    
+
+

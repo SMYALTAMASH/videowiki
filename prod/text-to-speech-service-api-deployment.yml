@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: text-to-speech-service-deployment
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: text-to-speech-service
+    template:
+        metadata:
+            labels:
+                component: text-to-speech-service
+                stage: prod
+        spec:
+            containers:
+            - name: text-to-speech-service
+              imagePullPolicy: Always
+              image: example.dkr.ecr.eu-west-1.amazonaws.com/videowiki/text-to-speech-service:master
+              ports:
+                - containerPort: 4000
+              envFrom:
+                - secretRef:
+                    name: videowikisecretkeys
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: text-to-speech-service-cluster-ip
+    # namespace: videowiki
+        
+spec:
+    type: ClusterIP
+    selector:
+        component: text-to-speech-service
+    ports:
+    - port: 4000
+      targetPort: 4000    
+
+

@@ -1,0 +1,51 @@
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: ingress-service
+    annotations:
+        kubernetes.io/ingress.class: alb
+        alb.ingress.kubernetes.io/proxy-body-size: 800m
+        alb.ingress.kubernetes.io/enable-cors: "true"
+        alb.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,With,If-Modified-Since,Cache-Control,Authorization,Content-type,Accept,X-Access-Token, vw-x-user-api-key, vw-x-user-api-key-secret, X-Vw-Anonymous-Id, X-Key, Cache-Control, X-Requested-With"
+        alb.ingress.kubernetes.io/ssl-redirect: "true"
+        alb.ingress.kubernetes.io/rewrite-target: /
+        alb.ingress.kubernetes.io/scheme: internet-facing
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+        alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+        alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:677496996282:certificate/4b0f26c3-8beb-4efb-bd0b-5e2b44e37ab4
+        albs.ingress.kubernetes.io/websocket-services: websockets-service-cluster-ip
+        albs.org/websocket-services: websockets-service-cluster-ip
+        albs.ingress.kubernetes.io/proxy-read-timeout: "1800"
+        albs.ingress.kubernetes.io/proxy-send-timeout: "1800"
+        alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=600
+        alb.ingress.kubernetes.io/target-type: ip
+        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp" 
+spec:
+    rules:
+    - http:
+        paths:
+
+            - path: /*
+              backend:
+                serviceName: ssl-redirect
+                servicePort: use-annotation
+
+
+            - path: /api*
+              backend:
+                serviceName: api-gateway-service-cluster-ip
+                servicePort: 4000
+
+
+            - path: /socket.io*
+              backend:
+                serviceName: websockets-service-cluster-ip
+                servicePort: 4000
+
+
+            - path: /*
+              backend:
+                serviceName: client-cluster-ip
+                servicePort: 3000
+   
