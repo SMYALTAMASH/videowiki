@@ -56,7 +56,7 @@ services:
             - ./api-gateway-service:/api-gateway-service
         ports:
             - 4000:4000
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'dev']
     websockets-service:
         restart: on-failure
         env_file:
@@ -68,7 +68,7 @@ services:
             - ./websockets-service:/websockets-service
         ports:
             - 4010:4000
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'dev']
 
 
     apikey-api-service:
@@ -80,7 +80,7 @@ services:
         volumes:
             - ./apikey-api-service:/apikey-api-service
             - /apikey-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     article-api-service:
         env_file:
@@ -91,7 +91,7 @@ services:
         volumes:
             - ./article-api-service:/article-api-service
             - /article-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     auth-service:
         env_file:
@@ -102,7 +102,7 @@ services:
         volumes:
             - ./auth-service:/auth-service
             - /auth-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     comment-api-service:
         env_file:
@@ -113,7 +113,7 @@ services:
         volumes:
             - ./comment-api-service:/comment-api-service
             - /comment-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     email-service:
         env_file:
@@ -124,7 +124,7 @@ services:
         volumes:
             - ./email-service:/email-service
             - /email-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     invitation-response-api-service:
         env_file:
@@ -135,7 +135,7 @@ services:
         volumes:
             - ./invitation-response-api-service:/invitation-response-api-service
             - /invitation-response-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     noise-cancellation-video-api-service:
         env_file:
@@ -146,7 +146,7 @@ services:
         volumes:
             - ./noise-cancellation-video-api-service:/noise-cancellation-video-api-service
             - /noise-cancellation-video-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     notification-api-service:
         env_file:
@@ -157,7 +157,7 @@ services:
         volumes:
             - ./notification-api-service:/notification-api-service
             - /notification-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     organization-api-service:
         env_file:
@@ -168,7 +168,7 @@ services:
         volumes:
             - ./organization-api-service:/organization-api-service
             - /organization-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     socket-connection-service:
         env_file:
@@ -179,7 +179,7 @@ services:
         volumes:
             - ./socket-connection-service:/socket-connection-service
             - /socket-connection-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     storage-service:
         env_file:
@@ -190,7 +190,7 @@ services:
         volumes:
             - ./storage-service:/storage-service
             - /storage-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     subtitles-api-service:
         env_file:
@@ -201,7 +201,7 @@ services:
         volumes:
             - ./subtitles-api-service:/subtitles-api-service
             - /subtitles-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     text-to-speech-service:
         env_file:
@@ -212,7 +212,7 @@ services:
         volumes:
             - ./text-to-speech-service:/text-to-speech-service
             - /text-to-speech-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     translation-api-service:
         env_file:
@@ -223,7 +223,7 @@ services:
         volumes:
             - ./translation-api-service:/translation-api-service
             - /translation-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     translation-export-api-service:
         env_file:
@@ -234,7 +234,7 @@ services:
         volumes:
             - ./translation-export-api-service:/translation-export-api-service
             - /translation-export-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     user-api-service:
         env_file:
@@ -245,7 +245,7 @@ services:
         volumes:
             - ./user-api-service:/user-api-service
             - /user-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     video-api-service:
         env_file:
@@ -256,7 +256,7 @@ services:
         volumes:
             - ./video-api-service:/video-api-service
             - /video-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     video-tutorial-contribution-api-service:
         env_file:
@@ -267,7 +267,7 @@ services:
         volumes:
             - ./video-tutorial-contribution-api-service:/video-tutorial-contribution-api-service
             - /video-tutorial-contribution-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     audio-processor-service:
         env_file:
@@ -278,7 +278,7 @@ services:
         volumes:
             - ./audio-processor-service:/audio-processor-service
             - /audio-processor-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     translator-service:
         env_file:
@@ -289,7 +289,7 @@ services:
         volumes:
             - ./translator-service:/translator-service
             - /translator-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     noise-cancellation-api-service:
         env_file:
@@ -300,7 +300,7 @@ services:
         volumes:
             - ./noise-cancellation-api-service:/noise-cancellation-api-service
             - /noise-cancellation-api-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     exporter-service:
         env_file:
@@ -311,7 +311,7 @@ services:
         volumes:
             - ./exporter-service:/exporter-service
             - /exporter-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     bg-music-extractor-service:
         env_file:
@@ -322,7 +322,7 @@ services:
         volumes:
             - ./bg-music-extractor-service:/bg-music-extractor-service
             - /bg-music-extractor-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     transcriber-service:
         env_file:
@@ -333,7 +333,7 @@ services:
         volumes:
             - ./transcriber-service:/transcriber-service
             - /transcriber-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     video-noise-cancellation-service:
         env_file:
@@ -344,6 +344,6 @@ services:
         volumes:
             - ./video-noise-cancellation-service:/video-noise-cancellation-service
             - /video-noise-cancellation-service/node_modules
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '15', '--', 'npm', 'run', 'docker:dev']
+        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:dev']
 
     
