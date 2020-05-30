@@ -43,7 +43,7 @@ services:
             - docker-compose.env
         build:
             context: ./api-gateway-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
 
         depends_on:
             - redis-server
@@ -58,7 +58,7 @@ services:
             - docker-compose.env
         build:
             context: ./websockets-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         ports:
             - 4010:4000
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
@@ -70,7 +70,7 @@ services:
             - docker-compose.env
         build:
             context: ./apikey-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     article-api-service:
@@ -79,7 +79,7 @@ services:
             - docker-compose.env
         build:
             context: ./article-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     auth-service:
@@ -88,7 +88,7 @@ services:
             - docker-compose.env
         build:
             context: ./auth-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     comment-api-service:
@@ -97,7 +97,7 @@ services:
             - docker-compose.env
         build:
             context: ./comment-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     email-service:
@@ -106,7 +106,7 @@ services:
             - docker-compose.env
         build:
             context: ./email-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     invitation-response-api-service:
@@ -115,7 +115,7 @@ services:
             - docker-compose.env
         build:
             context: ./invitation-response-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-video-api-service:
@@ -124,7 +124,7 @@ services:
             - docker-compose.env
         build:
             context: ./noise-cancellation-video-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     notification-api-service:
@@ -133,7 +133,7 @@ services:
             - docker-compose.env
         build:
             context: ./notification-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     organization-api-service:
@@ -142,7 +142,7 @@ services:
             - docker-compose.env
         build:
             context: ./organization-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     socket-connection-service:
@@ -151,7 +151,7 @@ services:
             - docker-compose.env
         build:
             context: ./socket-connection-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     storage-service:
@@ -160,7 +160,7 @@ services:
             - docker-compose.env
         build:
             context: ./storage-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     subtitles-api-service:
@@ -169,7 +169,7 @@ services:
             - docker-compose.env
         build:
             context: ./subtitles-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     text-to-speech-service:
@@ -178,7 +178,7 @@ services:
             - docker-compose.env
         build:
             context: ./text-to-speech-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-api-service:
@@ -187,7 +187,7 @@ services:
             - docker-compose.env
         build:
             context: ./translation-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-export-api-service:
@@ -196,7 +196,7 @@ services:
             - docker-compose.env
         build:
             context: ./translation-export-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     user-api-service:
@@ -205,7 +205,7 @@ services:
             - docker-compose.env
         build:
             context: ./user-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-api-service:
@@ -214,7 +214,7 @@ services:
             - docker-compose.env
         build:
             context: ./video-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-tutorial-contribution-api-service:
@@ -223,7 +223,7 @@ services:
             - docker-compose.env
         build:
             context: ./video-tutorial-contribution-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     audio-processor-service:
@@ -232,7 +232,7 @@ services:
             - docker-compose.env
         build:
             context: ./audio-processor-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translator-service:
@@ -241,7 +241,7 @@ services:
             - docker-compose.env
         build:
             context: ./translator-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-api-service:
@@ -250,7 +250,7 @@ services:
             - docker-compose.env
         build:
             context: ./noise-cancellation-api-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     exporter-service:
@@ -259,7 +259,7 @@ services:
             - docker-compose.env
         build:
             context: ./exporter-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     bg-music-extractor-service:
@@ -268,7 +268,7 @@ services:
             - docker-compose.env
         build:
             context: ./bg-music-extractor-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     transcriber-service:
@@ -277,7 +277,7 @@ services:
             - docker-compose.env
         build:
             context: ./transcriber-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-noise-cancellation-service:
@@ -286,7 +286,7 @@ services:
             - docker-compose.env
         build:
             context: ./video-noise-cancellation-service
-            dockerfile: Dockerfile.dev
+            dockerfile: Dockerfile
         command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     
