@@ -23,9 +23,10 @@ services:
 ########################################################################################
     nginx_server:
         image: nginx:1.14.0
-        restart: on-failure
+        restart: always 
         ports:
             - 80:80
+            - 443:443
         volumes:
         - ./nginx_config:/etc/nginx/conf.d
 
@@ -61,7 +62,7 @@ services:
             dockerfile: Dockerfile
         ports:
             - 4010:4000
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
 
     apikey-api-service:
@@ -71,7 +72,7 @@ services:
         build:
             context: ./apikey-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     article-api-service:
         restart: on-failure
@@ -80,7 +81,7 @@ services:
         build:
             context: ./article-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     auth-service:
         restart: on-failure
@@ -89,7 +90,7 @@ services:
         build:
             context: ./auth-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     comment-api-service:
         restart: on-failure
@@ -98,7 +99,7 @@ services:
         build:
             context: ./comment-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     email-service:
         restart: on-failure
@@ -107,7 +108,7 @@ services:
         build:
             context: ./email-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     invitation-response-api-service:
         restart: on-failure
@@ -116,7 +117,7 @@ services:
         build:
             context: ./invitation-response-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-video-api-service:
         restart: on-failure
@@ -125,7 +126,7 @@ services:
         build:
             context: ./noise-cancellation-video-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     notification-api-service:
         restart: on-failure
@@ -134,7 +135,7 @@ services:
         build:
             context: ./notification-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     organization-api-service:
         restart: on-failure
@@ -143,7 +144,7 @@ services:
         build:
             context: ./organization-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     socket-connection-service:
         restart: on-failure
@@ -152,7 +153,7 @@ services:
         build:
             context: ./socket-connection-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     storage-service:
         restart: on-failure
@@ -161,7 +162,7 @@ services:
         build:
             context: ./storage-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     subtitles-api-service:
         restart: on-failure
@@ -170,7 +171,7 @@ services:
         build:
             context: ./subtitles-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     text-to-speech-service:
         restart: on-failure
@@ -179,7 +180,7 @@ services:
         build:
             context: ./text-to-speech-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-api-service:
         restart: on-failure
@@ -188,7 +189,7 @@ services:
         build:
             context: ./translation-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-export-api-service:
         restart: on-failure
@@ -197,7 +198,7 @@ services:
         build:
             context: ./translation-export-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     user-api-service:
         restart: on-failure
@@ -206,7 +207,7 @@ services:
         build:
             context: ./user-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-api-service:
         restart: on-failure
@@ -215,7 +216,7 @@ services:
         build:
             context: ./video-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-tutorial-contribution-api-service:
         restart: on-failure
@@ -224,7 +225,7 @@ services:
         build:
             context: ./video-tutorial-contribution-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     audio-processor-service:
         restart: on-failure
@@ -233,7 +234,7 @@ services:
         build:
             context: ./audio-processor-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translator-service:
         restart: on-failure
@@ -242,7 +243,7 @@ services:
         build:
             context: ./translator-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-api-service:
         restart: on-failure
@@ -251,7 +252,7 @@ services:
         build:
             context: ./noise-cancellation-api-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     exporter-service:
         restart: on-failure
@@ -260,7 +261,7 @@ services:
         build:
             context: ./exporter-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     bg-music-extractor-service:
         restart: on-failure
@@ -269,7 +270,7 @@ services:
         build:
             context: ./bg-music-extractor-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     transcriber-service:
         restart: on-failure
@@ -278,7 +279,7 @@ services:
         build:
             context: ./transcriber-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-noise-cancellation-service:
         restart: on-failure
@@ -287,6 +288,6 @@ services:
         build:
             context: ./video-noise-cancellation-service
             dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
+        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     
