@@ -5,21 +5,18 @@ services:
 ### DEPENDENCIES ###
     redis-server:
         image: redis
+        restart: always
 ########################################################################################
     mongo-server:
         image: mongo:4.0.10
-        restart: on-failure
-        # environment:
-        #   - MONGO_INITDB_ROOT_USERNAME=root
-        #   - MONGO_INITDB_ROOT_PASSWORD=root
-        #   - MONGO_INITDB_DATABASE=tailored_videowiki
+        restart: always
         volumes:
         - ./data:/data/db
         - ./data:/var/lib/mongodb 
 ########################################################################################
     rabbitmq-server:
         image: rabbitmq
-        restart: on-failure
+        restart: always
 ########################################################################################
     nginx_server:
         image: nginx:1.14.0
@@ -32,262 +29,172 @@ services:
 
 ########################################################################################
     client:
-        build:
-            context: ./client
-            dockerfile: Dockerfile
-        ports:
-            - 3000:3000
+        restart: on-failure
+        image: registry.gitlab.com/videowiki/client:2.0.0
+        env_file:
+            - docker-compose.env
 ########################################################################################
     api-gateway-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/api-gateway-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./api-gateway-service
-            dockerfile: Dockerfile
-
         depends_on:
             - redis-server
             - mongo-server
             - rabbitmq-server
-        ports:
-            - 4000:4000
-        command: ['./wait-for-it.sh', 'rabbitmq-server:5672', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
     websockets-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/websockets-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./websockets-service
-            dockerfile: Dockerfile
-        ports:
-            - 4010:4000
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
-
 
     apikey-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/apikey-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./apikey-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     article-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/article-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./article-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     auth-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/auth-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./auth-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     comment-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/comment-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./comment-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     email-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/email-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./email-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     invitation-response-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/invitation-response-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./invitation-response-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-video-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/noise-cancellation-video-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./noise-cancellation-video-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     notification-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/notification-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./notification-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     organization-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/organization-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./organization-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     socket-connection-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/socket-connection-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./socket-connection-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     storage-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/storage-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./storage-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     subtitles-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/subtitles-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./subtitles-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     text-to-speech-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/text-to-speech-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./text-to-speech-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/translation-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./translation-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translation-export-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/translation-export-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./translation-export-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     user-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/user-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./user-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/video-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./video-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-tutorial-contribution-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/video-tutorial-contribution-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./video-tutorial-contribution-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     audio-processor-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/audio-processor-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./audio-processor-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     translator-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/translator-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./translator-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     noise-cancellation-api-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/noise-cancellation-api-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./noise-cancellation-api-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     exporter-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/exporter-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./exporter-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     bg-music-extractor-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/bg-music-extractor-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./bg-music-extractor-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     transcriber-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/transcriber-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./transcriber-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
 
     video-noise-cancellation-service:
         restart: on-failure
+        image: registry.gitlab.com/videowiki/video-noise-cancellation-service:2.0.0
         env_file:
             - docker-compose.env
-        build:
-            context: ./video-noise-cancellation-service
-            dockerfile: Dockerfile
-        command: ['./wait-for-it.sh', 'api-gateway-service:4000', '-s', '-t', '60', '--', 'npm', 'run', 'docker:prod']
-
-    
