@@ -400,9 +400,14 @@ const deployments = [
         replicas: 2,
     },
     {
-        name: 'video-tutorial-contribution-api-service',
+        name: 'folder-api-service',
         type: 'api',
         replicas: 2,
+    },
+    {
+        name: 'video-tutorial-contribution-api-service',
+        type: 'api',
+        replicas: 1,
     },
     {
         name: 'websockets-service',

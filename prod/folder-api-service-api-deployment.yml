@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: folder-api-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: folder-api-service
+  template:
+    metadata:
+      labels:
+        component: folder-api-service
+        stage: prod
+    spec:
+      containers:
+        - name: folder-api-service
+          imagePullPolicy: Always
+          image: 677496996282.dkr.ecr.eu-west-1.amazonaws.com/videowiki/folder-api-service:master
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: folder-api-service-cluster-ip
+  # namespace: videowiki
+
+spec:
+  type: ClusterIP
+  selector:
+    component: folder-api-service
+  ports:
+    - port: 4000
+      targetPort: 4000
