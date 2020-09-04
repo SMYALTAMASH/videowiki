@@ -1,0 +1,462 @@
+# API-SERVICE
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-service-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: api-service
+  template:
+    metadata:
+      labels:
+        component: api-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: api
+      containers:
+        - name: api-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/api-service:4
+          ports:
+            - containerPort: 4000
+          resources:
+            requests:
+              cpu: 1
+              memory: "1Gi"
+            limits:
+              cpu: 1
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: api-service
+  ports:
+    - port: 4000
+      targetPort: 4000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-service-deployment
+  minReplicas: 2
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+---
+####################################################################################################################################
+# CLIENT
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: client
+  template:
+    metadata:
+      labels:
+        component: client
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: api
+      containers:
+        - name: client
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/client:4
+          resources:
+            requests:
+              cpu: 0.5
+              memory: "1Gi"
+            limits:
+              cpu: 0.5
+              memory: "1Gi"
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: client
+  ports:
+    - port: 3000
+      targetPort: 3000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: client-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: client-deployment
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+####################################################################################################################################
+
+# AUDIO PROCESSOR
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audio-processor-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: audio-processor-service
+  template:
+    metadata:
+      labels:
+        component: audio-processor-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: worker
+      containers:
+        - name: audio-processor-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/audio-processor-service:4
+          resources:
+            requests:
+              cpu: 1
+              memory: "1Gi"
+            limits:
+              cpu: 1
+              memory: "2Gi"
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audio-processor-service-cluster-ip
+spec:
+  type: ClusterIP
+  selector:
+    component: audio-processor-service
+  ports:
+    - port: 4000
+      targetPort: 4000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: audio-processor-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: audio-processor-service-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+####################################################################################################################################
+
+# AUTOMATIC VIDEO BREAK
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: automatic-video-break-service-deployment
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      component: automatic-video-break-service
+  template:
+    metadata:
+      labels:
+        component: automatic-video-break-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: worker
+      containers:
+        - name: automatic-video-break-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/automatic-video-break-service:4
+          resources:
+            requests:
+              cpu: 1.5
+              memory: "2.5Gi"
+            limits:
+              cpu: 1.5
+              memory: "2.5Gi"
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: automatic-video-break-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: automatic-video-break-service-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+####################################################################################################################################
+
+# BG MUSIC EXTRACTOR
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bg-music-extractor-service-deployment
+spec:
+  replicas: 1
+  # strategy:
+  #     type: RollingUpdate
+  #     rollingUpdate:
+  #         maxUnavailable: 1
+  selector:
+    matchLabels:
+      component: bg-music-extractor-service
+  template:
+    metadata:
+      labels:
+        component: bg-music-extractor-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: worker
+      containers:
+        - name: bg-music-extractor-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/bg-music-extractor-service:4
+          resources:
+            requests:
+              cpu: 1.5
+              memory: "4Gi"
+            limits:
+              cpu: 1.5
+              memory: "4Gi"
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: bg-music-extractor-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bg-music-extractor-service-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+# EXPORTER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exporter-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: exporter-service
+  template:
+    metadata:
+      labels:
+        component: exporter-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: worker
+      containers:
+        - name: exporter-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/exporter-service:4
+          resources:
+            requests:
+              cpu: 1.5
+              memory: "4Gi"
+            limits:
+              cpu: 1.5
+              memory: "4Gi"
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: exporter-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: exporter-service-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+####################################################################################################################################
+
+# TRANSCRIBER
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transcriber-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: transcriber-service
+  template:
+    metadata:
+      labels:
+        component: transcriber-service
+        stage: prod
+    spec:
+      nodeSelector:
+        service_type: worker
+      containers:
+        - name: transcriber-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/transcriber-service:4
+          resources:
+            requests:
+              cpu: 0.5
+              memory: "0.5Gi"
+            limits:
+              cpu: 0.5
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+                path: /health
+                port: 4000
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: transcriber-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: transcriber-service-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+---
+####################################################################################################################################
+
+# TRANSCRIBER CRONJOB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transcriber-cronjob-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: transcriber-cronjob-service
+  template:
+    metadata:
+      labels:
+        component: transcriber-cronjob-service
+        stage: prod
+    spec:
+      containers:
+        - name: transcriber-cronjob-service
+          imagePullPolicy: IfNotPresent
+          image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4
+          envFrom:
+            - secretRef:
+                name: videowikisecretkeys

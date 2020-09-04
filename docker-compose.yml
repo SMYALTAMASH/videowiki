@@ -30,181 +30,22 @@ services:
 ########################################################################################
     client:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/client:3.2.5
+        image: registry.gitlab.com/videowiki/client:4
         env_file:
             - docker-compose.env
 ########################################################################################
-    api-gateway-service:
+    api-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/api-gateway-service:3.2.5
+        image: registry.gitlab.com/videowiki/api-service:4
         env_file:
             - docker-compose.env
         depends_on:
             - redis-server
             - mongo-server
             - rabbitmq-server
-    folder-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/folder-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-    websockets-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/websockets-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    apikey-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/apikey-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    article-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/article-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    auth-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/auth-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    comment-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/comment-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    email-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/email-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    invitation-response-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/invitation-response-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    noise-cancellation-video-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/noise-cancellation-video-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    notification-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/notification-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    organization-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/organization-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    socket-connection-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/socket-connection-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    storage-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/storage-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    subtitles-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/subtitles-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    text-to-speech-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/text-to-speech-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    translation-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/translation-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    translation-export-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/translation-export-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    user-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/user-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    video-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/video-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    video-tutorial-contribution-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/video-tutorial-contribution-api-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
     audio-processor-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/audio-processor-service:3.2.5
+        image: registry.gitlab.com/videowiki/audio-processor-service:4
         env_file:
             - docker-compose.env
         depends_on:
@@ -212,15 +53,7 @@ services:
 
     translator-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/translator-service:3.2.5
-        env_file:
-            - docker-compose.env
-        depends_on:
-            - api-gateway-service
-
-    noise-cancellation-api-service:
-        restart: on-failure
-        image: registry.gitlab.com/videowiki/noise-cancellation-api-service:3.2.5
+        image: registry.gitlab.com/videowiki/translator-service:4
         env_file:
             - docker-compose.env
         depends_on:
@@ -228,7 +61,7 @@ services:
 
     exporter-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/exporter-service:3.2.5
+        image: registry.gitlab.com/videowiki/exporter-service:4
         env_file:
             - docker-compose.env
         depends_on:
@@ -236,30 +69,32 @@ services:
 
     bg-music-extractor-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/bg-music-extractor-service:3.2.5
+        image: registry.gitlab.com/videowiki/bg-music-extractor-service:4
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
     automatic-video-break-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/automatic-video-break-service:3.2.5
+        image: registry.gitlab.com/videowiki/automatic-video-break-service:4
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
     transcriber-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/transcriber-service:3.2.5
+        image: registry.gitlab.com/videowiki/transcriber-service:4
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
 
-    video-noise-cancellation-service:
+    transcriber-cronjob-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/video-noise-cancellation-service:3.2.5
+        image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
+
+
