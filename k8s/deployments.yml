@@ -19,7 +19,7 @@ spec:
       containers:
         - name: api-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/api-service:4
+          image: registry.gitlab.com/videowiki/api-service:4.0.1
           ports:
             - containerPort: 4000
           resources:
@@ -89,7 +89,7 @@ spec:
       containers:
         - name: client
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/client:4
+          image: registry.gitlab.com/videowiki/client:4.0.1
           resources:
             requests:
               cpu: 0.5
@@ -160,7 +160,7 @@ spec:
       containers:
         - name: audio-processor-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/audio-processor-service:4
+          image: registry.gitlab.com/videowiki/audio-processor-service:4.0.1
           resources:
             requests:
               cpu: 1
@@ -235,7 +235,7 @@ spec:
       containers:
         - name: automatic-video-break-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/automatic-video-break-service:4
+          image: registry.gitlab.com/videowiki/automatic-video-break-service:4.0.1
           resources:
             requests:
               cpu: 1.5
@@ -295,7 +295,7 @@ spec:
       containers:
         - name: bg-music-extractor-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/bg-music-extractor-service:4
+          image: registry.gitlab.com/videowiki/bg-music-extractor-service:4.0.1
           resources:
             requests:
               cpu: 1.5
@@ -350,7 +350,7 @@ spec:
       containers:
         - name: exporter-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/exporter-service:4
+          image: registry.gitlab.com/videowiki/exporter-service:4.0.1
           resources:
             requests:
               cpu: 1.5
@@ -408,7 +408,7 @@ spec:
       containers:
         - name: transcriber-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/transcriber-service:4
+          image: registry.gitlab.com/videowiki/transcriber-service:4.0.1
           resources:
             requests:
               cpu: 0.5
@@ -463,7 +463,7 @@ spec:
       containers:
         - name: transcriber-cronjob-service
           imagePullPolicy: IfNotPresent
-          image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4
+          image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4.0.1
           envFrom:
             - secretRef:
                 name: videowikisecretkeys
