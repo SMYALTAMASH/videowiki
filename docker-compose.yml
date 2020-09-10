@@ -30,13 +30,13 @@ services:
 ########################################################################################
     client:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/client:4.0.1
+        image: registry.gitlab.com/videowiki/client:4.1.0
         env_file:
             - docker-compose.env
 ########################################################################################
     api-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/api-service:4.0.1
+        image: registry.gitlab.com/videowiki/api-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
@@ -45,7 +45,7 @@ services:
             - rabbitmq-server
     audio-processor-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/audio-processor-service:4.0.1
+        image: registry.gitlab.com/videowiki/audio-processor-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
@@ -53,7 +53,7 @@ services:
 
     translator-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/translator-service:4.0.1
+        image: registry.gitlab.com/videowiki/translator-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
@@ -61,7 +61,7 @@ services:
 
     exporter-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/exporter-service:4.0.1
+        image: registry.gitlab.com/videowiki/exporter-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
@@ -69,21 +69,21 @@ services:
 
     bg-music-extractor-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/bg-music-extractor-service:4.0.1
+        image: registry.gitlab.com/videowiki/bg-music-extractor-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
     automatic-video-break-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/automatic-video-break-service:4.0.1
+        image: registry.gitlab.com/videowiki/automatic-video-break-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
             - api-gateway-service
     transcriber-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/transcriber-service:4.0.1
+        image: registry.gitlab.com/videowiki/transcriber-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
@@ -91,7 +91,7 @@ services:
 
     transcriber-cronjob-service:
         restart: on-failure
-        image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4.0.1
+        image: registry.gitlab.com/videowiki/transcriber-cronjob-service:4.1.0
         env_file:
             - docker-compose.env
         depends_on:
